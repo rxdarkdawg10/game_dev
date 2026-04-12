@@ -9,3 +9,6 @@ sdl2 = { version = "0.38.0", features = ["bundled", "static-link"] }
 
 [features]
 gl_debug = ["gl/debug"]
+
+[build-dependencies]
+walkdir = "2.5.0"
