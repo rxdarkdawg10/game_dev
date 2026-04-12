@@ -4,5 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-gl = "0.14.0"
+gl = { path = "../lib/gl" }
 sdl2 = { version = "0.38.0", features = ["bundled", "static-link"] }
+
+[features]
+gl_debug = ["gl/debug"]
