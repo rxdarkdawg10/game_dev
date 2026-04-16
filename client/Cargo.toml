@@ -4,11 +4,5 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-gl = { path = "../lib/gl" }
-sdl2 = { version = "0.38.0", features = ["bundled", "static-link"] }
-
-[features]
-gl_debug = ["gl/debug"]
-
-[build-dependencies]
-walkdir = "2.5.0"
+sdl3 = { version = "0.18.0", features = ["ttf", "main", "image"] }
+sdl3-main = "0.6.2"
