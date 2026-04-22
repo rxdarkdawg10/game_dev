@@ -1,6 +1,12 @@
 use sdl3::event::Event;
 use sdl3::pixels::Color;
+use sdl3::rect::Rect;
 use std::time::Duration;
+
+use crate::internal::entities::Entity;
+use crate::internal::entities::player::Player;
+
+mod internal;
 
 pub fn main() {
     // Initialize SDL3 context
@@ -18,6 +24,9 @@ pub fn main() {
     let mut canvas = window.into_canvas();
     let mut event_pump = sdl_context.event_pump().unwrap();
 
+    // Initialize Scene Elements
+    let mut player = Player::new().init();
+
     'running: loop {
         // Handle events
         for event in event_pump.poll_iter() {
@@ -27,9 +36,18 @@ pub fn main() {
             }
         }
 
-        // Update & Render
-        canvas.set_draw_color(Color::RGB(0, 64, 255));
+        // Clear Screen
+        canvas.set_draw_color(Color::RGB(100, 100, 100));
         canvas.clear();
+
+        // Update Elements
+        player.update();
+
+        // Draw Elements
+        player.draw();
+        canvas.set_draw_color(Color::RGB(100, 0, 0));
+        canvas.fill_rect(Rect::new(10, 10, 100, 200)).unwrap();
+
         canvas.present();
 
         std::thread::sleep(Duration::from_millis(16)); // Cap at ~60 FPS
