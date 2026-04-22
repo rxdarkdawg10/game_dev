@@ -1,4 +1,5 @@
 use sdl3::event::Event;
+use sdl3::keyboard::Keycode;
 use sdl3::pixels::Color;
 use sdl3::rect::Rect;
 use std::time::Duration;
@@ -25,13 +26,21 @@ pub fn main() {
     let mut event_pump = sdl_context.event_pump().unwrap();
 
     // Initialize Scene Elements
-    let mut player = Player::new().init();
+    let mut player = Player::new();
 
     'running: loop {
         // Handle events
         for event in event_pump.poll_iter() {
             match event {
                 Event::Quit { .. } => break 'running,
+                Event::KeyDown { keycode, .. } => {
+                    if let Some(key) = keycode {
+                        if key == Keycode::Escape {
+                            break 'running;
+                        }
+                        player.move_player(key);
+                    }
+                }
                 _ => {}
             }
         }
@@ -44,9 +53,7 @@ pub fn main() {
         player.update();
 
         // Draw Elements
-        player.draw();
-        canvas.set_draw_color(Color::RGB(100, 0, 0));
-        canvas.fill_rect(Rect::new(10, 10, 100, 200)).unwrap();
+        player.draw(&mut canvas);
 
         canvas.present();
 
