@@ -1,7 +1,8 @@
-use sdl3::event::Event;
-use sdl3::keyboard::Keycode;
+use sdl3::event::{Event, WindowEvent};
+use sdl3::keyboard::{Keycode, Scancode};
 use sdl3::pixels::Color;
-use sdl3::rect::Rect;
+use sdl3_sys::events::SDL_EVENT_PEN_UP;
+use std::collections::HashSet;
 use std::time::Duration;
 
 use crate::internal::entities::Entity;
@@ -30,17 +31,23 @@ pub fn main() {
 
     'running: loop {
         // Handle events
+        event_pump.pump_events();
+        let keystate = event_pump.keyboard_state();
+        let mut keys: HashSet<Scancode> = keystate.pressed_scancodes().collect();
+
         for event in event_pump.poll_iter() {
             match event {
                 Event::Quit { .. } => break 'running,
-                Event::KeyDown { keycode, .. } => {
+                Event::KeyDown {
+                    keycode, scancode, ..
+                } => {
                     if let Some(key) = keycode {
                         if key == Keycode::Escape {
                             break 'running;
                         }
-                        player.move_player(key);
                     }
                 }
+
                 _ => {}
             }
         }
@@ -50,6 +57,7 @@ pub fn main() {
         canvas.clear();
 
         // Update Elements
+        player.move_player(keys);
         player.update();
 
         // Draw Elements

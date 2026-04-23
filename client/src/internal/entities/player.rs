@@ -1,4 +1,12 @@
-use sdl3::{keyboard::Keycode, pixels::Color, rect::Rect, render::Canvas, video::Window};
+use std::collections::HashSet;
+
+use sdl3::{
+    keyboard::{KeyboardState, Keycode, Scancode},
+    pixels::Color,
+    rect::Rect,
+    render::Canvas,
+    video::Window,
+};
 
 use crate::internal::{common::Vector2, entities::Entity, system::camera::Camera};
 
@@ -26,13 +34,20 @@ impl Player {
         }
     }
 
-    pub fn move_player(self: &mut Self, key: Keycode) {
-        match key {
-            Keycode::Left => self.bounds.x -= 1,
-            Keycode::Right => self.bounds.x += 1,
-            Keycode::Up => self.bounds.y -= 1,
-            Keycode::Down => self.bounds.y += 1,
-            _ => {}
+    pub fn move_player(self: &mut Self, keystate: HashSet<Scancode>) {
+        for key in keystate {
+            if key == Scancode::Right {
+                self.bounds.x += 5;
+            }
+            if key == Scancode::Left {
+                self.bounds.x -= 5;
+            }
+            if key == Scancode::Up {
+                self.bounds.y -= 5;
+            }
+            if key == Scancode::Down {
+                self.bounds.y += 5;
+            }
         }
     }
 }
