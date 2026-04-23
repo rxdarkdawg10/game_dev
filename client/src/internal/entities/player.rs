@@ -1,15 +1,10 @@
-use sdl3::{
-    keyboard::{KeyboardState, Keycode},
-    pixels::Color,
-    rect::Rect,
-    render::Canvas,
-    video::Window,
-};
+use sdl3::{keyboard::Keycode, pixels::Color, rect::Rect, render::Canvas, video::Window};
 
-use crate::internal::entities::Entity;
+use crate::internal::{common::Vector2, entities::Entity, system::camera::Camera};
 
 pub struct Player {
     bounds: Rect,
+    _camera: Camera,
 }
 
 impl Entity for Player {
@@ -27,6 +22,7 @@ impl Player {
     pub fn new() -> Self {
         Player {
             bounds: Rect::new(0, 0, 100, 100),
+            _camera: Camera::new(Vector2::new(0.0, 0.0), 800, 600),
         }
     }
 
