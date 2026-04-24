@@ -3,7 +3,7 @@ use crate::internal::{
     scenes::SCENES,
 };
 
-pub struct world {
+pub struct World {
     _type: SCENES,
     _players: Vec<Player>,
     _objects: Vec<Box<dyn Entity>>,
