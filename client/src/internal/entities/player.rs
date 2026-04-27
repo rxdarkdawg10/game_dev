@@ -22,7 +22,7 @@ impl Entity for Player {
     }
 
     fn update(self: &mut Self) {
-        // todo!()
+        self._camera.update(self.bounds);
     }
 }
 
