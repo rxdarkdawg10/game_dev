@@ -1,4 +1,4 @@
-use sdl3::rect::Rect;
+use sdl3::{pixels::Color, rect::Rect, render::Canvas, video::Window};
 
 use crate::internal::common::Vector2;
 
@@ -6,6 +6,7 @@ pub struct Camera {
     position: Vector2,
     width: i32,
     height: i32,
+    lerp: f32,
 }
 
 impl Camera {
@@ -14,6 +15,7 @@ impl Camera {
             position: pos,
             width: width,
             height: height,
+            lerp: 1.0,
         }
     }
 
@@ -22,27 +24,11 @@ impl Camera {
     }
 
     pub fn update(self: &mut Self, player: Rect) {
-        // if self.position.x < 0.0 {
-        //     self.position.x = 0.0;
-        // }
+        let target_x = player.x as f32 + (player.w as f32 / 2.0) - (800.0 / 2.0);
+        let target_y = player.y as f32 + (player.h as f32 / 2.0) - (600.0 / 2.0);
 
-        // if self.position.y < 0.0 {
-        //     self.position.y = 0.0;
-        // }
-
-        // if self.position.x > (600 - self.width) as f32 {
-        //     self.position.x = (600 - self.width) as f32;
-        // }
-
-        // if self.position.y > (800 - self.height) as f32 {
-        //     self.position.y = (600 - self.height) as f32;
-        // }
-
-        self.position.x = (player.x + player.w / 2 - self.width / 2) as f32;
-        self.position.y = (player.y + player.h / 2 - self.height / 2) as f32;
-
-        // self.position.x = self.position.x.clamp(0.0, 800.0 - 800.0);
-        // self.position.y = self.position.y.clamp(0.0, 800.0 - 800.0);
+        self.position.x += (target_x - self.position.x) * self.lerp;
+        self.position.y += (target_y - self.position.y) * self.lerp;
     }
 
     pub fn rect(self: &Self) -> Rect {

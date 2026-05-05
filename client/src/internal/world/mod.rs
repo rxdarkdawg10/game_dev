@@ -11,7 +11,7 @@ pub struct World<'a> {
 impl<'a> World<'a> {
     pub fn new(player: &'a mut Player) -> Self {
         World {
-            camera: Camera::new(Vector2::new(0.0, 0.0), 800, 600),
+            camera: Camera::new(Vector2::new(400.0, 300.0), 200, 200),
             players: Vec::new(),
             player: player,
         }

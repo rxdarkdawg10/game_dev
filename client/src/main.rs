@@ -62,24 +62,13 @@ pub fn main() {
 
         // Update Elements
         world.player.move_player(keys);
-        world.player.update(world.camera.get_position());
+        world.player.update();
 
         // Update Camera
         world.camera.update(world.player.get_bounds());
 
         // Draw Elements
-
-        let obj_screen_rect = FRect::new(
-            static_object.x - world.camera.get_position().x,
-            static_object.y - world.camera.get_position().y,
-            static_object.w,
-            static_object.h,
-        );
-
-        canvas.set_draw_color(Color::RGB(34, 139, 34)); // Forest Green
-        let _ = canvas.fill_rect(obj_screen_rect);
-
-        world.player.draw(&mut canvas);
+        world.player.draw(&mut canvas, world.camera.get_position());
 
         canvas.present();
 
