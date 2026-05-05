@@ -7,7 +7,7 @@ use std::time::Duration;
 
 use crate::internal::entities::Entity;
 use crate::internal::entities::player::Player;
-use crate::internal::world::World;
+use crate::internal::scenes::world::World;
 
 mod internal;
 
@@ -30,8 +30,6 @@ pub fn main() {
     // Initialize Scene Elements
     let mut player = Player::new();
     let mut world = World::new(&mut player);
-    let static_object = FRect::new(500.0, 500.0, 60.0, 80.0);
-    // world.players.push(&player);
 
     'running: loop {
         // Handle events
