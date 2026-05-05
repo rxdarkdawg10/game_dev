@@ -1,3 +1,4 @@
+#[derive(Debug, Clone, Copy)]
 pub struct Vector2 {
     pub x: f32,
     pub y: f32,

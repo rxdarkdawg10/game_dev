@@ -1,18 +1,12 @@
 use std::collections::HashSet;
 
-use sdl3::{
-    keyboard::{KeyboardState, Keycode, Scancode},
-    pixels::Color,
-    rect::Rect,
-    render::Canvas,
-    video::Window,
-};
+use sdl3::{keyboard::Scancode, pixels::Color, rect::Rect, render::Canvas, video::Window};
 
-use crate::internal::{common::Vector2, entities::Entity, system::camera::Camera};
+use crate::internal::{common::Vector2, entities::Entity};
 
 pub struct Player {
     bounds: Rect,
-    _camera: Camera,
+    speed: f32,
 }
 
 impl Entity for Player {
@@ -21,8 +15,12 @@ impl Entity for Player {
         canvas.fill_rect(self.bounds).unwrap();
     }
 
-    fn update(self: &mut Self) {
-        self._camera.update(self.bounds);
+    fn update(self: &mut Self, camera: Vector2) {
+        self.bounds.x = self.bounds.x.clamp(0, 800 - self.bounds.w);
+        self.bounds.y = self.bounds.y.clamp(0, 600 - self.bounds.h);
+
+        self.bounds.x -= camera.x as i32;
+        self.bounds.y -= camera.y as i32;
     }
 }
 
@@ -30,24 +28,28 @@ impl Player {
     pub fn new() -> Self {
         Player {
             bounds: Rect::new(0, 0, 100, 100),
-            _camera: Camera::new(Vector2::new(0.0, 0.0), 800, 600),
+            speed: 10.0,
         }
     }
 
     pub fn move_player(self: &mut Self, keystate: HashSet<Scancode>) {
         for key in keystate {
             if key == Scancode::Right {
-                self.bounds.x += 5;
+                self.bounds.x += self.speed as i32;
             }
             if key == Scancode::Left {
-                self.bounds.x -= 5;
+                self.bounds.x -= self.speed as i32;
             }
             if key == Scancode::Up {
-                self.bounds.y -= 5;
+                self.bounds.y -= self.speed as i32;
             }
             if key == Scancode::Down {
-                self.bounds.y += 5;
+                self.bounds.y += self.speed as i32;
             }
         }
+    }
+
+    pub fn get_bounds(self: &mut Self) -> Rect {
+        self.bounds
     }
 }

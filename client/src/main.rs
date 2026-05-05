@@ -1,12 +1,13 @@
-use sdl3::event::{Event, WindowEvent};
+use sdl3::event::Event;
 use sdl3::keyboard::{Keycode, Scancode};
 use sdl3::pixels::Color;
-use sdl3_sys::events::SDL_EVENT_PEN_UP;
+use sdl3::render::FRect;
 use std::collections::HashSet;
 use std::time::Duration;
 
 use crate::internal::entities::Entity;
 use crate::internal::entities::player::Player;
+use crate::internal::world::World;
 
 mod internal;
 
@@ -28,6 +29,9 @@ pub fn main() {
 
     // Initialize Scene Elements
     let mut player = Player::new();
+    let mut world = World::new(&mut player);
+    let static_object = FRect::new(500.0, 500.0, 60.0, 80.0);
+    // world.players.push(&player);
 
     'running: loop {
         // Handle events
@@ -57,11 +61,25 @@ pub fn main() {
         canvas.clear();
 
         // Update Elements
-        player.move_player(keys);
-        player.update();
+        world.player.move_player(keys);
+        world.player.update(world.camera.get_position());
+
+        // Update Camera
+        world.camera.update(world.player.get_bounds());
 
         // Draw Elements
-        player.draw(&mut canvas);
+
+        let obj_screen_rect = FRect::new(
+            static_object.x - world.camera.get_position().x,
+            static_object.y - world.camera.get_position().y,
+            static_object.w,
+            static_object.h,
+        );
+
+        canvas.set_draw_color(Color::RGB(34, 139, 34)); // Forest Green
+        let _ = canvas.fill_rect(obj_screen_rect);
+
+        world.player.draw(&mut canvas);
 
         canvas.present();
 
