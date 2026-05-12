@@ -1,10 +1,10 @@
 use sdl3::event::Event;
 use sdl3::keyboard::{Keycode, Scancode};
 use sdl3::pixels::Color;
-use sdl3::render::FRect;
 use std::collections::HashSet;
 use std::time::Duration;
 
+use crate::internal::common::{Vector2, render_text};
 use crate::internal::entities::Entity;
 use crate::internal::entities::player::Player;
 use crate::internal::scenes::world::World;
@@ -67,6 +67,19 @@ pub fn main() {
 
         // Draw Elements
         world.player.draw(&mut canvas, world.camera.get_position());
+
+        // UI
+        render_text(
+            &("Player -> X: ".to_owned()
+                + world.player.get_bounds().x().to_string().as_str()
+                + ", Y: "
+                + world.player.get_bounds().y().to_string().as_str()),
+            &mut canvas,
+            36.0,
+            Color::BLACK,
+            Vector2::new(10.0, 10.0),
+        )
+        .unwrap();
 
         canvas.present();
 
