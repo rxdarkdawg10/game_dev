@@ -3,9 +3,10 @@ use std::path::Path;
 use sdl3::{
     pixels::Color,
     rect::Rect,
-    render::{Canvas, TextureQuery},
+    render::{Canvas, FRect, TextureCreator, TextureQuery},
     video::Window,
 };
+use sdl3_sys::surface;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Vector2 {
@@ -17,6 +18,38 @@ impl Vector2 {
     pub fn new(x: f32, y: f32) -> Self {
         Vector2 { x: x, y: y }
     }
+}
+
+pub fn render_spritesheet(
+    sprite: Vector2,
+    size: f32,
+    sprite_loc: Vector2,
+    canvas: &mut Canvas<Window>,
+) -> Result<(), String> {
+    let spr_surface = sdl3::surface::Surface::load_bmp("client/assets/spritesheet.bmp").unwrap();
+    let texture_creator = canvas.texture_creator();
+    let spr_texture = texture_creator
+        .create_texture_from_surface(&spr_surface)
+        .unwrap();
+
+    let sprite_width = 32;
+    let sprite_height = 32;
+
+    let src_rect = FRect::new(
+        sprite.x,
+        sprite.y,
+        sprite_width as f32,
+        sprite_height as f32,
+    );
+    let dst_rect = FRect::new(
+        800.0 - (sprite_width as f32 * size) - 10.0,
+        0.0,
+        sprite_width as f32 * size,
+        sprite_height as f32 * size,
+    );
+    canvas.copy(&spr_texture, src_rect, dst_rect).unwrap();
+
+    Ok(())
 }
 
 pub fn render_text(

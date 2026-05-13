@@ -4,7 +4,7 @@ use sdl3::pixels::Color;
 use std::collections::HashSet;
 use std::time::Duration;
 
-use crate::internal::common::{Vector2, render_text};
+use crate::internal::common::{Vector2, render_spritesheet, render_text};
 use crate::internal::entities::Entity;
 use crate::internal::entities::player::Player;
 use crate::internal::scenes::world::World;
@@ -78,6 +78,14 @@ pub fn main() {
             36.0,
             Color::BLACK,
             Vector2::new(10.0, 10.0),
+        )
+        .unwrap();
+
+        render_spritesheet(
+            Vector2::new(0.0, 0.0),
+            2.5,
+            Vector2::new(0.0, 0.0),
+            &mut canvas,
         )
         .unwrap();
 
