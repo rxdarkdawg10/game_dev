@@ -7,6 +7,7 @@ use crate::internal::{common::Vector2, entities::Entity};
 pub struct Player {
     bounds: Rect,
     speed: f32,
+    health: usize,
 }
 
 impl Entity for Player {
@@ -36,6 +37,7 @@ impl Player {
         Player {
             bounds: Rect::new(0, 0, 100, 100),
             speed: 5.0,
+            health: 100,
         }
     }
 

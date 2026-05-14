@@ -42,8 +42,8 @@ pub fn render_spritesheet(
         sprite_height as f32,
     );
     let dst_rect = FRect::new(
-        800.0 - (sprite_width as f32 * size) - 10.0,
-        0.0,
+        sprite_loc.x - (sprite_width as f32 * size) - 10.0,
+        sprite_loc.y,
         sprite_width as f32 * size,
         sprite_height as f32 * size,
     );

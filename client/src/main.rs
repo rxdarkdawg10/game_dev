@@ -8,6 +8,7 @@ use crate::internal::common::{Vector2, render_spritesheet, render_text};
 use crate::internal::entities::Entity;
 use crate::internal::entities::player::Player;
 use crate::internal::scenes::world::World;
+use crate::internal::system::ui::UI;
 
 mod internal;
 
@@ -30,6 +31,7 @@ pub fn main() {
     // Initialize Scene Elements
     let mut player = Player::new();
     let mut world = World::new(&mut player);
+    let mut ui = UI::new(800, 600);
 
     'running: loop {
         // Handle events
@@ -69,6 +71,7 @@ pub fn main() {
         world.player.draw(&mut canvas, world.camera.get_position());
 
         // UI
+        ui.update(&mut canvas);
         render_text(
             &("Player -> X: ".to_owned()
                 + world.player.get_bounds().x().to_string().as_str()
@@ -81,13 +84,7 @@ pub fn main() {
         )
         .unwrap();
 
-        render_spritesheet(
-            Vector2::new(0.0, 0.0),
-            2.5,
-            Vector2::new(0.0, 0.0),
-            &mut canvas,
-        )
-        .unwrap();
+        ui.draw(&mut canvas, world.camera.get_position());
 
         canvas.present();
 
