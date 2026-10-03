@@ -26,7 +26,7 @@ pub fn render_spritesheet(
     sprite_loc: Vector2,
     canvas: &mut Canvas<Window>,
 ) -> Result<(), String> {
-    let spr_surface = sdl3::surface::Surface::load_bmp("client/assets/spritesheet.bmp").unwrap();
+    let spr_surface = sdl3::surface::Surface::load_png("client/assets/spritesheet.png").unwrap();
     let texture_creator = canvas.texture_creator();
     let spr_texture = texture_creator
         .create_texture_from_surface(&spr_surface)

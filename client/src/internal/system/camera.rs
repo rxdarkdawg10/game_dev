@@ -19,7 +19,7 @@ impl Camera {
         }
     }
 
-    pub fn get_position(self: &mut Self) -> Vector2 {
+    pub fn get_position(self: &Self) -> Vector2 {
         self.position
     }
 

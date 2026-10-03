@@ -19,7 +19,7 @@ pub fn main() {
 
     // Build the window
     let window = video_subsystem
-        .window("SDL3 Rust Demo", 800, 600)
+        .window("Game Dev", 800, 600)
         .position_centered()
         .build()
         .unwrap();
@@ -31,6 +31,7 @@ pub fn main() {
     // Initialize Scene Elements
     let mut player = Player::new();
     let mut world = World::new(&mut player);
+    
     let mut ui = UI::new(800, 600);
 
     'running: loop {
@@ -68,10 +69,11 @@ pub fn main() {
         world.camera.update(world.player.get_bounds());
 
         // Draw Elements
-        world.player.draw(&mut canvas, world.camera.get_position());
+        world.draw(&mut canvas, &world.camera.get_position());
+        world.player.draw(&mut canvas, &world.camera.get_position());
 
         // UI
-        ui.update(&mut canvas);
+        ui.update(&mut world);
         render_text(
             &("Player -> X: ".to_owned()
                 + world.player.get_bounds().x().to_string().as_str()

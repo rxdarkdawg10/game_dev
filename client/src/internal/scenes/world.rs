@@ -1,3 +1,5 @@
+use sdl3::{pixels::Color, rect::Rect, render::Canvas, video::Window};
+
 use crate::internal::{
     common::Vector2,
     entities::{Entity, player::Player},
@@ -22,5 +24,19 @@ impl<'a> World<'a> {
             player: player,
             _objects: Vec::new(),
         }
+    }
+
+    pub fn draw(self: &mut Self, canvas: &mut Canvas<Window>, camera: &Vector2) {
+        let screen_x = 20 - camera.x as i32;
+        let screen_y = 20 - camera.y as i32;
+
+        let dest_rect = Rect::new(
+            screen_x,
+            screen_y,
+            700,
+            50,
+        );
+        canvas.set_draw_color(Color::RGB(0, 0, 0));
+        canvas.fill_rect(dest_rect).unwrap();
     }
 }

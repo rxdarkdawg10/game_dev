@@ -11,7 +11,7 @@ pub struct Player {
 }
 
 impl Entity for Player {
-    fn draw(self: &mut Self, canvas: &mut Canvas<Window>, camera: Vector2) {
+    fn draw(self: &mut Self, canvas: &mut Canvas<Window>, camera: &Vector2) {
         let screen_x = self.bounds.x - camera.x as i32;
         let screen_y = self.bounds.y - camera.y as i32;
 
@@ -39,6 +39,10 @@ impl Player {
             speed: 5.0,
             health: 100,
         }
+    }
+
+    pub fn get_health(self: &mut Self) -> usize {
+        self.health
     }
 
     pub fn move_player(self: &mut Self, keystate: HashSet<Scancode>) {
